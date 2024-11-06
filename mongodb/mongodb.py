@@ -36,3 +36,17 @@ for _, row in dataset.iterrows():
         upsert=True
     )
 
+# Insert product data if not already present
+    product_data = {
+        "_id": row['Product ID'],
+        "category": row['Category'],
+        "sub_category": row['Sub-Category'],
+        "product_name": row['Product Name']
+    }
+    products_collection.update_one(
+        {"_id": row['Product ID']},
+        {"$setOnInsert": product_data},
+        upsert=True
+    )
+
+     
