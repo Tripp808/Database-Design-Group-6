@@ -49,4 +49,20 @@ for _, row in dataset.iterrows():
         upsert=True
     )
 
+# Insert order data if not already present
+    order_data = {
+        "_id": row['Order ID'],
+        "order_date": row['Order Date'],
+        "ship_date": row['Ship Date'],
+        "ship_mode": row['Ship Mode'],
+        "customer_id": row['Customer ID']
+    }
+    orders_collection.update_one(
+        {"_id": row['Order ID']},
+        {"$setOnInsert": order_data},
+        upsert=True
+    )
+
+
+
      
