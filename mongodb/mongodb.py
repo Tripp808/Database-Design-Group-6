@@ -15,3 +15,25 @@ products_collection = db['Products']
 orders_collection = db['Orders']
 sales_collection = db['Sales']
 
+# Insert data into collections with appropriate nesting and references
+for _, row in dataset.iterrows():
+    # Insert customer data if not already present
+    customer_data = {
+        "_id": row['Customer ID'],
+        "name": row['Customer Name'],
+        "segment": row['Segment'],
+        "location": {
+            "country": row['Country'],
+            "city": row['City'],
+            "state": row['State'],
+            "postal_code": row['Postal Code'],
+            "region": row['Region']
+        }
+    }
+    customers_collection.update_one(
+        {"_id": row['Customer ID']},
+        {"$setOnInsert": customer_data},
+        upsert=True
+    )
+
+    
