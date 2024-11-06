@@ -9,3 +9,9 @@ dataset = pd.read_csv(file_path)
 client = MongoClient("mongodb+srv://aibeh:Parity2017@cluster0.nekvn.mongodb.net/?")
 db = client['sales_database']
 
+# Create collections
+customers_collection = db['Customers']
+products_collection = db['Products']
+orders_collection = db['Orders']
+sales_collection = db['Sales']
+
