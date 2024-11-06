@@ -1,0 +1,24 @@
+{
+    "Customers": {
+        "customer_id": "ObjectId",
+        "customer_name": "String",
+        "customer_email": "String",
+        "customer_address": "String"
+    },
+    "Products": {
+        "product_id": "ObjectId",
+        "product_name": "String",
+        "product_price": "Decimal"
+    },
+    "Orders": {
+        "order_id": "ObjectId",
+        "customer_id": "Reference to Customers",
+        "order_date": "Date",
+        "items": [
+            {
+                "product_id": "Reference to Products",
+                "quantity": "Integer"
+            }
+        ]
+    }
+}
