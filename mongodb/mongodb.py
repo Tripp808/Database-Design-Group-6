@@ -62,4 +62,14 @@ for _, row in dataset.iterrows():
         upsert=True
     )
 
-    
+# Insert sales data
+    sales_data = {
+        "order_id": row['Order ID'],
+        "product_id": row['Product ID'],
+        "sales_amount": row['Sales']
+    }
+    sales_collection.insert_one(sales_data)
+
+print("Data inserted successfully!")
+
+     
