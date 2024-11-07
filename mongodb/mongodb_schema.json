@@ -1,22 +1,22 @@
 {
     "Customers": {
-        "customer_id": "ObjectId",
-        "customer_name": "String",
-        "customer_email": "String",
-        "customer_address": "String"
+        "_id": "ObjectId",
+        "name": "String",
+        "email": "String",
+        "address": "String"
     },
     "Products": {
-        "product_id": "ObjectId",
-        "product_name": "String",
-        "product_price": "Decimal"
+        "_id": "ObjectId",
+        "name": "String",
+        "price": "Decimal"
     },
     "Orders": {
-        "order_id": "ObjectId",
-        "customer_id": "Reference to Customers",
+        "_id": "ObjectId",
+        "customer_id": "ObjectId (Reference to Customers)",
         "order_date": "Date",
         "items": [
             {
-                "product_id": "Reference to Products",
+                "product_id": "ObjectId (Reference to Products)",
                 "quantity": "Integer"
             }
         ]
