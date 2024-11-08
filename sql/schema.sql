@@ -1,16 +1,16 @@
--- schema.sql
-
 CREATE TABLE Customers (
     customer_id INT PRIMARY KEY,
     customer_name VARCHAR(100),
-    customer_email VARCHAR(100),
-    customer_address VARCHAR(255)
+    country VARCHAR(100),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    postal_code VARCHAR(20)
 );
 
 CREATE TABLE Products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(100),
-    product_price DECIMAL(10, 2)
+    sales DECIMAL(10, 2)
 );
 
 CREATE TABLE Orders (

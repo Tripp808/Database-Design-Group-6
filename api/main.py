@@ -14,13 +14,18 @@ def to_dict(document):
         document["_id"] = str(document["_id"])
     return document
 
-# Define Pydantic models for validation
+# Define Pydantic models for validation, matching schema in populate_db.py
+
 class Customer(BaseModel):
+    _id: str
     name: str
-    email: str
-    address: str
+    country: str
+    city: str
+    state: str
+    postal_code: Optional[float]
 
 class Product(BaseModel):
+    _id: str
     name: str
     price: float
     description: Optional[str] = None
@@ -30,8 +35,13 @@ class OrderItem(BaseModel):
     quantity: int
 
 class Order(BaseModel):
+    _id: str
     customer_id: str  # References customer _id in MongoDB
     items: List[OrderItem]
+    total_amount: float
+    status: str
+    date_created: Optional[str] = None
+    date_updated: Optional[str] = None
 
 # CRUD Endpoints for Customers
 @app.post("/customers/")
