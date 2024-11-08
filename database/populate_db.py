@@ -67,7 +67,7 @@ async def populate_orders():
             "_id": row['Order ID'],
             "customer_id": row['Customer ID'],
             "product_id": row['Product ID'],
-            "quantity": 1,  # Default quantity since it is not available in the dataset
+            "quantity": 1,  # it is not available in the dataset but i'll set it defualt to 1
             "order_date": datetime.strptime(row['Order Date'], "%d/%m/%Y"),
             "status": "Completed"  # Default status
         }
