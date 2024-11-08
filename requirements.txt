@@ -1,4 +1,5 @@
 fastapi
 pymongo
-uvicorn
+uvicorn[standard]  # Ensures the necessary dependencies for running a FastAPI app
 pydantic
+motor  # Optional if using async with MongoDB
