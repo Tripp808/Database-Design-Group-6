@@ -2,13 +2,15 @@
     "Customers": {
         "_id": "ObjectId",
         "name": "String",
-        "email": "String",
-        "address": "String"
+        "country": "String",
+        "city": "String",
+        "state": "String",
+        "postal_code": "String"
     },
     "Products": {
         "_id": "ObjectId",
         "name": "String",
-        "price": "Decimal"
+        "sales": "Decimal"
     },
     "Orders": {
         "_id": "ObjectId",

@@ -11,31 +11,50 @@ db = client["order_management"]
 df = pd.read_csv("database/train.csv")
 
 async def populate_customers():
-    customers = df[['Customer ID', 'Customer Name']].drop_duplicates()
+    # Filter out unique customers
+    customers = df[['Customer ID', 'Customer Name', 'Country', 'City', 'State', 'Postal Code']].drop_duplicates(subset='Customer ID')
     customer_docs = [
         {
             "_id": row['Customer ID'],
             "name": row['Customer Name'],
-            "email": f"{row['Customer Name'].replace(' ', '.')}@example.com",
-            "address": "123 Default St"
+            "country": row['Country'],
+            "city": row['City'],
+            "state": row['State'],
+            "postal_code": row['Postal Code']
         }
         for _, row in customers.iterrows()
     ]
-    db.customers.insert_many(customer_docs)
+
+    # Insert customers with duplicate check
+    for customer in customer_docs:
+        # Insert only if the customer ID does not already exist
+        if db.customers.count_documents({"_id": customer["_id"]}) == 0:
+            db.customers.insert_one(customer)
+        else:
+            print(f"Customer with ID {customer['_id']} already exists, skipping insertion.")
+
     print("Customers populated.")
 
 async def populate_products():
-    products = df[['Product ID', 'Product Name', 'Sales']].drop_duplicates(subset='Product ID')
+    # Filter out unique products
+    products = df[['Product ID', 'Product Name', 'Category', 'Sales']].drop_duplicates(subset='Product ID')
     product_docs = [
         {
             "_id": row['Product ID'],
             "name": row['Product Name'],
-            "description": "No description",
-            "price": row['Sales']
+            "description": row['Category'],
+            "sales": row['Sales']
         }
         for _, row in products.iterrows()
     ]
-    db.products.insert_many(product_docs)
+
+    # Insert products with duplicate check
+    for product in product_docs:
+        if db.products.count_documents({"_id": product["_id"]}) == 0:
+            db.products.insert_one(product)
+        else:
+            print(f"Product with ID {product['_id']} already exists, skipping insertion.")
+
     print("Products populated.")
 
 async def populate_orders():
@@ -48,15 +67,20 @@ async def populate_orders():
             "_id": row['Order ID'],
             "customer_id": row['Customer ID'],
             "product_id": row['Product ID'],
-            "quantity": 1,  # Default quantity since it is not available in the dataset
+            "quantity": 1,  # it is not available in the dataset but i'll set it defualt to 1
             "order_date": datetime.strptime(row['Order Date'], "%d/%m/%Y"),
             "status": "Completed"  # Default status
         }
         for _, row in orders.iterrows()
     ]
-    
-    # Insert the documents into the 'orders' collection
-    db.orders.insert_many(order_docs)
+
+    # Insert orders with duplicate check
+    for order in order_docs:
+        if db.orders.count_documents({"_id": order["_id"]}) == 0:
+            db.orders.insert_one(order)
+        else:
+            print(f"Order with ID {order['_id']} already exists, skipping insertion.")
+
     print("Orders populated.")
 
 async def main():
