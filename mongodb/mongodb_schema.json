@@ -10,17 +10,16 @@
     "Products": {
         "_id": "ObjectId",
         "name": "String",
+        "description" : "String",
         "sales": "Decimal"
     },
     "Orders": {
-        "_id": "ObjectId",
-        "customer_id": "ObjectId (Reference to Customers)",
-        "order_date": "Date",
-        "items": [
-            {
-                "product_id": "ObjectId (Reference to Products)",
-                "quantity": "Integer"
-            }
-        ]
-    }
+    "_id": "String (Unique order ID, e.g., CA-2017-152156)",
+    "customer_id": "String (Reference to Customers, e.g., CG-12520)",
+    "product_id": "String (Reference to Products, e.g., FUR-BO-10001798)",
+    "quantity": "Integer (Quantity ordered)",
+    "order_date": "Date",
+    "status": "String (Order status, e.g., Completed)"
+}
+
 }

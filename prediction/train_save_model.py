@@ -11,9 +11,14 @@ data = pd.read_csv('database/train.csv')
 features = ["Country", "State", "Postal Code", "Category"]
 target = "Sales"  # Replace with your actual target column
 
+# Initialize label encoders dictionary
+label_encoders = {}
+
 # Preprocess the data
 for column in data.select_dtypes(include=['object']).columns:
-    data[column] = LabelEncoder().fit_transform(data[column])
+    le = LabelEncoder()
+    data[column] = le.fit_transform(data[column])
+    label_encoders[column] = le  # Save the encoder for this column
 
 # Drop rows with missing values
 data = data.dropna(subset=features + [target])
@@ -29,6 +34,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-# Save the trained model
+# Save the trained model and encoders
 with open("prediction/trained_model.pkl", "wb") as file:
     pickle.dump(model, file)
+
+with open("prediction/label_encoders.pkl", "wb") as file:
+    pickle.dump(label_encoders, file)
