@@ -116,11 +116,11 @@ def delete_product(product_id: str):
 
 @app.post("/orders/")
 def create_order(order: Order):
-    # Verify customer exists
+    # customer verification
     if not db.customers.find_one({"_id": order.customer_id}):
         raise HTTPException(status_code=404, detail="Customer not found")
 
-    # Verify product exists
+    # product exists?
     if not db.products.find_one({"_id": order.product_id}):
         raise HTTPException(status_code=404, detail="Product not found")
 
@@ -162,24 +162,18 @@ def delete_order(order_id: str):
 
 @app.get("/products/last")
 def get_last_product():
-    # Fetch the last product by sorting on the _id field in descending order (latest first)
+    # trynna sort fields in descending order (latest first)
     last_product_cursor = db.products.find().sort("_id", -1).limit(1)
     
-    # Convert the cursor to a list to fetch the result
+    # cursor to a list to fetch the result
     last_product = list(last_product_cursor)
     
-    # Check if the list is empty
+    # is list empty?
     if not last_product:
         raise HTTPException(status_code=404, detail="No products found")
     
-    # Return the last product as a dictionary (using to_dict to ensure _id is a string)
+    # Return last product as a dict 
     return to_dict(last_product[0])
-    
-@app.get("/products/check_connection")
-def check_connection():
-    test_product = db.products.find_one()
-    if not test_product:
-        raise HTTPException(status_code=404, detail="No products found in the database")
-    return {"message": "Connection successful", "sample_product": to_dict(test_product)}
+
 
 
