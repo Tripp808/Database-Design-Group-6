@@ -44,7 +44,7 @@ def make_prediction(model, data):
     return prediction
 
 # Example usage
-api_url = "http://localhost:8000"  # Replace with your actual API URL
+api_url = "http://localhost:8000"  # Replace actual API URL
 model_path = "model.pkl"  # Replace with your actual model path
 
 # Fetch latest data
